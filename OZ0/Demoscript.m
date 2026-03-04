@@ -34,13 +34,13 @@ vec1(1:2) = [3000,200]
 
 % Bewerkingen met matrices en vectoren
 
-A = randi(10,4,3)
+A = randi(10,4,3) % 4x3 matrix met random getallen van 1 t.e.m. 10
 B = randi(10,4,3)
-t = rand(4,1)
+t = rand(4,1)     % 4x1 matrix met random getallen van 0 tot 1
 A+B
 A-1
-A/2
-A*B
+A/2     % elementsgewijs
+% A*B     % matrixvermenigvuldiging
 A*B.'
 
 x = A\t % Los Ax=t op
@@ -49,26 +49,27 @@ x
 format short % Default
 
 % Elementsgewijs
-A*A
+A*A'
 A.*A
 A.^2
 A./A 
 
 % Ingebouwde functies
 
-svd(A) % Hoe werkt dit?
+svd(A) % Returnt singuliere waarden
 help svd % Of Matlab website, Google, Mathworks forum, stackoverflow, vriendjes, Raphaël
 [U,S,V] = svd(A)
-[U,S,V] = svd(A,0) % Gereduceerde SVD
+[U,S,V] = svd(A,0) % Gereduceerde SVD (0 == "econ")
 [~,S,V] = svd(A,0) % Tilde voor ongewenste uitvoer
 
 vec1
 mean(vec1)
 mat1
-mean(mat1) % Werkt in op elke kolom
-mean(mat1,[1,2]) % Gemiddelde volgens de tweede (kolom) dimensie
-mean(mean(mat1))
-mean(mat1(:))
+mean(mat1)          % Kolom gemiddelden
+mean(mat1, 2)       % Rij gemiddelden
+mean(mat1,[1,2])    % Gemiddelde over rijen en kolommen samen
+mean(mean(mat1))    % Globaal gemiddelde
+mean(mat1(:))       % Globaal gemiddelde (flattening)
 
 C = ones(3)
 C = zeros(3,2)
