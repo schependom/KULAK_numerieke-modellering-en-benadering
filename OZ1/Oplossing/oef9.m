@@ -55,6 +55,13 @@ plot(Ar(:,40),'r')
 plot(Artrunc(:,40),'g')
 legend({'Ruislooos', 'Ruizig', 'Lage-rang benadering'})
 
+%% Frobeniusnorm
+function f = frob(A)
+    % Berekent de Frobenius-norm van matrix A
+    % Dit is hetzelfde als norm(A, 'fro')
+    f = norm(A, 'fro');
+end
+
 
 %% Bereken de relatieve nauwkeurigheid.
 % Het verschil tussen de ruizige matrix en de lage-rang benadering komt
@@ -71,3 +78,26 @@ fprintf('Relatief verschil ruisloos vs denoised matrix: %.2fdB\n', esterrA);
 % de singulierewaardenontbinding een goede benadering geeft van de
 % originele matrix.
 
+%%
+% Alternatieve berekening, in de wetenschap dat
+%
+%       v = rang van onze benadering
+%       r = rang van A^T A = rang van A
+%
+%       ||A-A_v||_2 = \sigma_{v+1}
+%       ||A-A_v||_F = \sqrt(\sigma_{v+1}^2 + ... \sigma_{r}^2)
+
+% Haal alle singuliere waarden op
+sigmas = diag(SAr);
+
+% Bereken de norm van de fout (vanaf index 3 tot het einde)
+fout_norm = sqrt(sum(sigmas(3:end).^2));
+
+% Bereken de norm van de volledige matrix Ar
+totaal_norm = sqrt(sum(sigmas.^2)); % Of gewoon norm(Ar, 'fro')
+
+% Alternatieve dB berekening
+esterrAr_alt = 20 * log10(fout_norm / totaal_norm)
+
+% Verschil
+abs(esterrAr_alt-esterrAr)

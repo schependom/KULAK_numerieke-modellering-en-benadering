@@ -1,4 +1,4 @@
-%% Opgave 5a
+%% Opgave 6a
 figure(1)
 A = randn(100,50);
 [d,~,ds] = fastgivensQR1d(A);

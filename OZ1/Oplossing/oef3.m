@@ -1,6 +1,14 @@
 %%% Oefening 6
+% Hier testen we eerst 3 keer Klassieke Gram-Schmidt
 
 A = rand(100,50);
+
+%% Twee for loops
+%
+% Elapsed time is 0.009832 seconds.
+% Elapsed time with timeit is: 9.641141e-04 seconds 
+% Norm of error:
+%   2.5778e-15
 
 disp('Twee for-loops');
 tic
@@ -11,6 +19,12 @@ fprintf('Norm of error:\n')
 disp(norm(A - Q*R));
 pause;
 
+%% Een for-loop
+%
+% Elapsed time is 0.004339 seconds.
+% Elapsed time with timeit is: 2.017114e-03 seconds 
+% Norm of error:
+%   3.4418e-16
 
 disp('Eén for-loop');
 tic
@@ -21,6 +35,13 @@ fprintf('Norm of error:\n')
 disp(norm(A - Q*R));
 pause;
 
+%% Een for loop, verbeterd
+%
+% Elapsed time is 0.004276 seconds.
+% Elapsed time with timeit is: 1.792281e-03 seconds 
+% Norm of error:
+%   3.0315e-16
+
 disp('Eén for-loop, verbeterd');
 tic
 [Q,R] = qrtop(A);
@@ -29,6 +50,16 @@ fprintf('Elapsed time with timeit is: %d seconds \n\n', timeit(@() qrtop(A)));
 fprintf('Norm of error:\n')
 disp(norm(A - Q*R));
 pause;
+
+%% Ingebouwde functie
+%
+% De ingebouwde functie gebruikt Householder voor de QR-factorisatie,
+% maar wel geoptimaliseerd (merk op 10e-2 sneller)
+%
+% Elapsed time is 0.000326 seconds.
+% Elapsed time with timeit is: 5.659479e-05 seconds 
+% Norm of error:
+%   1.0050e-14
 
 disp('Ingebouwde functie');
 tic
@@ -39,9 +70,21 @@ fprintf('Norm of error:\n')
 disp(norm(A - Q*R));
 pause;
 
+%% Ingebouwde functie, gereduceerd
+%
+% Elapsed time is 0.000221 seconds.
+% Elapsed time with timeit is: 4.325775e-05 seconds 
+% Norm of error:
+%   1.0050e-14
+
 disp('Ingebouwde functie, gereduceerd');
 tic
 [Q,R] = qr(A,0);
+% 0 stands for "econ" and "vector"
+%   -> "econ"   is economy size
+%   -> "vector" is permutation vector:
+%                   a simple 1D array of indices (p = [3, 1, 2]), 
+%                   such that A(:,p)=Q×R
 toc
 fprintf('Elapsed time with timeit is: %d seconds \n\n', timeit(@() qr(A,0)));
 fprintf('Norm of error:\n')
