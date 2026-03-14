@@ -1,0 +1,25 @@
+%%% Exercise 4
+
+%% Draw figure and generate data
+[x,y] = click;
+N = size(x,2); % Number of evaluated points
+t = linspace(0,1,N); % Independent variable
+w = ones(N,1); % Uniform weights
+M = 6; % Degree of approximation
+
+%% Least-squares approximation
+c1 = kkb1(t,x,w,M);
+c2 = kkb1(t,y,w,M);
+
+%% Plot result
+close all;
+figure;
+hold on
+t = linspace(0,1,10*N); % Evaluate in enough points
+
+% Polyval verwacht coefficienten van hoogste naar laagste macht,
+% dus we moeten ze omdraaien!
+plot(polyval(c1(end:-1:1),t),polyval(c2(end:-1:1),t));
+
+plot(x,y,'r.', 'MarkerSize', 10);
+axis([0 1 0 1]);
